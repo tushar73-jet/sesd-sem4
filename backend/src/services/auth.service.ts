@@ -16,7 +16,6 @@ export class AuthService {
       throw new AppError('Email is already registered', 400);
     }
 
-    // Implementing Requirement: Registration restricted to students with college email addresses (.edu)
     const collegeEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/;
     if (!collegeEmailRegex.test(data.email)) {
       throw new AppError('You must use a valid college email address', 400);

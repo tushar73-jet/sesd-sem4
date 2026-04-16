@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/AppError';
+import { Prisma } from '@prisma/client';
 
 export const errorHandler = (
-  err: Error | AppError,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
@@ -13,6 +14,13 @@ export const errorHandler = (
   if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    statusCode = 400;
+    if (err.code === 'P2002') {
+      message = `Duplicate field value entered`;
+    } else {
+      message = err.message;
+    }
   } else {
     console.error('ERROR 💥:', err);
   }
