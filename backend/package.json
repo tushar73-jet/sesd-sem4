@@ -1,0 +1,17 @@
+{
+  "name": "campuskart-backend",
+  "version": "1.0.0",
+  "description": "Backend for CampusKart marketplace",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "marketplace",
+    "campus"
+  ],
+  "author": "",
+  "license": "ISC"
+}

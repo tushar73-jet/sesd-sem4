@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum ProductStatus {
+  AVAILABLE
+  SOLD
+  REMOVED
+}
+
+enum OrderStatus {
+  REQUESTED
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  password    String
+  role        Role      @default(STUDENT)
+  isSuspended Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+  ordersAsBuyer Order[] @relation("BuyerOrders")
+}
+
+model Product {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  category    String
+  status      ProductStatus @default(AVAILABLE)
+  sellerId    String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  seller      User          @relation(fields: [sellerId], references: [id])
+  orders      Order[]
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  productId   String
+  buyerId     String
+  status      OrderStatus @default(REQUESTED)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  product     Product     @relation(fields: [productId], references: [id])
+  buyer       User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+}
