@@ -1,7 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MyOrders from './pages/MyOrders';
+import Profile from './pages/Profile';
+import Home from './pages/Home';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -24,13 +27,13 @@ function AppRoutes() {
           path="/" 
           element={
             <ProtectedRoute>
-              <div style={{padding: '2rem'}}>
-                <h1>CampusKart MVP</h1>
-                <p>Welcome to your authenticated dashboard!</p>
-              </div>
+              <Home />
             </ProtectedRoute>
           } 
         />
+        
+        <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       </Routes>
     </div>
   );
