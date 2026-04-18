@@ -24,3 +24,10 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     return next(new AppError('Invalid token or token has expired', 401));
   }
 };
+
+export const requireAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (req.user?.role !== 'ADMIN') {
+    return next(new AppError('Access denied. Admin permissions required.', 403));
+  }
+  next();
+};

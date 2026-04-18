@@ -7,6 +7,8 @@ import Profile from './pages/Profile';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import MyListings from './pages/MyListings';
+import AdminDashboard from './pages/AdminDashboard';
+import Navbar from './components/Navbar';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -21,6 +23,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 function AppRoutes() {
   return (
     <div className="app-container">
+      <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -39,6 +42,7 @@ function AppRoutes() {
         <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
         <Route path="/my-listings" element={<ProtectedRoute><MyListings /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
       </Routes>
     </div>
   );
