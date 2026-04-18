@@ -12,5 +12,9 @@ export const orderService = {
   updateOrderStatus: async (id: string, status: string) => {
     const response = await api.put(`/orders/${id}/status`, { status });
     return response.data;
+  },
+  createOrder: async (productId: string) => {
+    const response = await api.post('/orders', { productId });
+    return response.data;
   }
 };

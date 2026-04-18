@@ -1,7 +1,7 @@
 import api from './api';
 
 export const productService = {
-  getProducts: async (params: { page?: number; limit?: number; search?: string; category?: string; status?: string }) => {
+  getProducts: async (params: { page?: number; limit?: number; search?: string; category?: string; status?: string; sellerId?: string }) => {
     // Convert undefined params to empty strings or omit to clean up the URL
     const cleanParams = Object.fromEntries(Object.entries(params).filter(([_, v]) => v != null && v !== ''));
     const response = await api.get('/products', { params: cleanParams });

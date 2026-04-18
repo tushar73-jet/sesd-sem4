@@ -22,6 +22,7 @@ export class ProductService {
     search?: string;
     category?: string;
     status?: string;
+    sellerId?: string;
   }) {
     const page = params.page || 1;
     const limit = params.limit || 10;
@@ -31,6 +32,10 @@ export class ProductService {
 
     if (params.status) {
       where.status = params.status as any;
+    }
+
+    if (params.sellerId) {
+      where.sellerId = params.sellerId;
     }
 
     if (params.category) {

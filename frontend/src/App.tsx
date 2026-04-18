@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import MyOrders from './pages/MyOrders';
 import Profile from './pages/Profile';
 import Home from './pages/Home';
+import ProductDetails from './pages/ProductDetails';
+import MyListings from './pages/MyListings';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -32,7 +34,10 @@ function AppRoutes() {
           } 
         />
         
+        <Route path="/product/:id" element={<ProtectedRoute><ProductDetails /></ProtectedRoute>} />
+        
         <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+        <Route path="/my-listings" element={<ProtectedRoute><MyListings /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       </Routes>
     </div>

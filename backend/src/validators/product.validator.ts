@@ -27,5 +27,6 @@ export const queryProductSchema = z.object({
     search: z.string().optional(),
     category: z.string().optional(),
     status: z.enum(['AVAILABLE', 'SOLD', 'REMOVED']).optional(),
+    sellerId: z.string().uuid().optional(),
   }),
 });
