@@ -84,10 +84,10 @@ const ProductDetails = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
+    <div className="container" style={{ padding: '2rem 0' }}>
       <button 
         onClick={() => navigate('/')}
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', marginBottom: '2rem', transition: 'color 0.2s', background: 'transparent', border: 'none', cursor: 'pointer' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', marginBottom: '2rem', transition: 'color 0.2s', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0 }}
         onMouseOver={e => e.currentTarget.style.color = 'var(--text-main)'}
         onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
       >
@@ -97,10 +97,19 @@ const ProductDetails = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) minmax(300px, 1fr)', gap: '4rem', background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '2rem' }}
+        className="fade-in"
+        style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+          gap: '2rem', 
+          background: 'var(--glass)', 
+          border: '1px solid var(--border)', 
+          borderRadius: '16px', 
+          padding: '2rem' 
+        }}
       >
         {/* Image Gallery */}
-        <div style={{ background: 'rgba(15, 23, 42, 0.5)', borderRadius: '12px', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+        <div style={{ background: 'rgba(15, 23, 42, 0.5)', borderRadius: '12px', minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', border: '1px solid var(--border)', overflow: 'hidden' }}>
           {product.imageUrl ? (
             <img src={product.imageUrl} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           ) : (

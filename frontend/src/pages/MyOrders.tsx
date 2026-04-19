@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Clock, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { orderService } from '../services/order.service';
 
 const StatusTimeline = ({ status }: { status: string }) => {
@@ -61,8 +62,19 @@ const MyOrders = () => {
     fetchOrders();
   }, []);
 
+  const handleComplete = async (orderId: string) => {
+    try {
+      await orderService.updateOrderStatus(orderId, 'COMPLETED');
+      // Simple refresh
+      const res = await orderService.getMyOrders();
+      setOrders(res.data.orders);
+    } catch (err: any) {
+      alert('Failed to complete order');
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="container" style={{ padding: '2rem 0' }}>
       <h1 style={{ fontSize: '2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <Package color="var(--primary)" size={32} />
         My Purchase Orders
@@ -100,7 +112,7 @@ const MyOrders = () => {
             >
               <div style={{ flex: '1 1 300px' }}>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>{order.product.title}</h3>
-                <p style={{ color: 'accent', fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <p style={{ color: 'var(--accent)', fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                   ${order.product.price.toFixed(2)}
                 </p>
                 <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
@@ -112,8 +124,25 @@ const MyOrders = () => {
                 <StatusTimeline status={order.status} />
               </div>
               
-              <div>
-                <button
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                {order.status === 'APPROVED' && (
+                  <button
+                    onClick={() => handleComplete(order.id)}
+                    style={{
+                      background: 'var(--primary)',
+                      color: 'white',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Mark as Received
+                  </button>
+                )}
+                
+                <Link
+                  to={`/product/${order.productId}`}
                   style={{
                     background: 'transparent',
                     border: '1px solid var(--primary)',
@@ -124,12 +153,13 @@ const MyOrders = () => {
                     alignItems: 'center',
                     gap: '0.5rem',
                     transition: 'all 0.2s',
+                    fontSize: '0.9rem'
                   }}
                   onMouseOver={(e) => { e.currentTarget.style.background = 'var(--primary)'; e.currentTarget.style.color = '#fff' }}
                   onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--primary)' }}
                 >
                   View Detail <ArrowRight size={16} />
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}

@@ -32,6 +32,8 @@ export class ProductService {
 
     if (params.status) {
       where.status = params.status as any;
+    } else {
+      where.status = { not: 'REMOVED' };
     }
 
     if (params.sellerId) {
@@ -92,7 +94,7 @@ export class ProductService {
     if (product.sellerId !== userId && userRole !== 'ADMIN') {
       throw new AppError('You do not have permission to delete this product', 403);
     }
-
-    return this.productRepo.delete(id);
+    
+    return this.productRepo.update(id, { status: 'REMOVED' });
   }
 }

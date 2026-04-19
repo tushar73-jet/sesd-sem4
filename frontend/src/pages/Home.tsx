@@ -50,10 +50,10 @@ const Home = () => {
   }, [activeCategory, page]);
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+    <div className="container" style={{ padding: '2rem 0' }}>
       {/* Top Banner / Header */}
       <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '3rem', color: 'var(--text-main)', marginBottom: '1rem' }}>Student Marketplace</h1>
+        <h1 style={{ fontSize: 'clamp(2rem, 8vw, 3.5rem)', color: 'var(--text-main)', marginBottom: '1rem', lineHeight: 1.1 }}>Student Marketplace</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem' }}>Find what you need, sell what you don't. Safely within your campus.</p>
         
         {/* Search Bar */}
@@ -74,11 +74,11 @@ const Home = () => {
         </form>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 250px) 1fr', gap: '2rem' }}>
+      <div className="home-layout">
         
         {/* Sidebar Filters */}
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '1.5rem' }}>
+        <aside className="home-sidebar">
+          <div style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '1.5rem', position: 'sticky', top: '100px' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontSize: '1.125rem' }}>
               <Filter size={18} /> Categories
             </h3>

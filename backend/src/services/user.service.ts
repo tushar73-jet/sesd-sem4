@@ -13,8 +13,8 @@ export class UserService {
     if (!user) {
       throw new AppError('User not found', 404);
     }
+
     
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
@@ -30,7 +30,7 @@ export class UserService {
 
     const updatedUser = await this.userRepo.update(userId, data);
     
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    
     const { password, ...userWithoutPassword } = updatedUser;
     return userWithoutPassword;
   }
