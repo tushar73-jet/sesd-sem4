@@ -39,7 +39,7 @@ const MyListings = () => {
   const [requestsLoading, setRequestsLoading] = useState(true);
 
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ title: '', description: '', price: '', category: 'Electronics' });
+  const [formData, setFormData] = useState({ title: '', description: '', price: '', category: 'Electronics', imageUrl: '' });
   const [submitLoading, setSubmitLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -85,7 +85,7 @@ const MyListings = () => {
         price: parseFloat(formData.price)
       });
       setShowModal(false);
-      setFormData({ title: '', description: '', price: '', category: 'Electronics' });
+      setFormData({ title: '', description: '', price: '', category: 'Electronics', imageUrl: '' });
       fetchMyProducts();
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
@@ -200,7 +200,7 @@ const MyListings = () => {
 
       {/* New Listing Modal overlay */}
       {showModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} style={{ background: 'var(--bg-card)', padding: '2rem', borderRadius: '16px', width: '100%', maxWidth: '500px', border: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1.5rem' }}>Post New Item</h2>
@@ -228,7 +228,12 @@ const MyListings = () => {
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)' }}>Description</label>
-                <textarea required minLength={10} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(15,23,42,0.5)', border: '1px solid var(--border)', borderRadius: '8px', color: 'white', minHeight: '100px' }} placeholder="Describe the condition, specs, etc..." />
+                <textarea required minLength={10} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(15,23,42,0.5)', border: '1px solid var(--border)', borderRadius: '8px', color: 'white', minHeight: '80px' }} placeholder="Describe the condition, specs, etc..." />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-muted)' }}>Image URL (Optional)</label>
+                <input type="url" value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(15,23,42,0.5)', border: '1px solid var(--border)', borderRadius: '8px', color: 'white' }} placeholder="Paste a link from Pinterest/Unsplash..." />
               </div>
 
               <button type="submit" disabled={submitLoading} style={{ background: 'var(--primary)', color: 'white', padding: '1rem', borderRadius: '8px', fontWeight: 600, marginTop: '0.5rem', opacity: submitLoading ? 0.7 : 1 }}>

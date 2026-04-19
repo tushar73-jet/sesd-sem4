@@ -63,15 +63,35 @@ const ProductDetails = () => {
 
   const isSeller = user?.id === product.sellerId;
 
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this listing?')) return;
+    try {
+      await productService.deleteProduct(product.id);
+      navigate('/my-listings');
+    } catch (err: any) {
+      setError('Failed to delete listing.');
+    }
+  };
+
+  const handleToggleStatus = async () => {
+    const newStatus = product.status === 'AVAILABLE' ? 'SOLD' : 'AVAILABLE';
+    try {
+      const res = await productService.updateProduct(product.id, { status: newStatus });
+      setProduct(res.data.product);
+    } catch (err: any) {
+      setError('Failed to update product status.');
+    }
+  };
+
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
       <button 
-        onClick={() => navigate(-1)}
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', marginBottom: '2rem', transition: 'color 0.2s', background: 'transparent' }}
+        onClick={() => navigate('/')}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', marginBottom: '2rem', transition: 'color 0.2s', background: 'transparent', border: 'none', cursor: 'pointer' }}
         onMouseOver={e => e.currentTarget.style.color = 'var(--text-main)'}
         onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
       >
-        <ArrowLeft size={20} /> Back to Listings
+        <ArrowLeft size={20} /> Back to Marketplace
       </button>
 
       <motion.div 
@@ -109,7 +129,7 @@ const ProductDetails = () => {
               <Clock size={16} /> Listed {new Date(product.createdAt).toLocaleDateString()}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Tag size={16} /> Status: <span style={{ color: product.status === 'AVAILABLE' ? '#22c55e' : '#ef4444', fontWeight: 600 }}>{product.status}</span>
+              <Tag size={16} /> Status: <span style={{ color: product.status === 'AVAILABLE' ? '#22c55e' : '#f59e0b', fontWeight: 600 }}>{product.status}</span>
             </div>
           </div>
 
@@ -124,9 +144,22 @@ const ProductDetails = () => {
                 </div>
               </motion.div>
             ) : isSeller ? (
-               <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                 <p>This is your listing.</p>
-                 <Link to="/my-listings" style={{ display: 'inline-block', marginTop: '0.5rem', color: 'var(--accent)' }}>Manage Listing</Link>
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                 <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>This is your listing.</p>
+                 <div style={{ display: 'flex', gap: '1rem' }}>
+                    <button 
+                      onClick={handleToggleStatus}
+                      style={{ flex: 1, background: product.status === 'AVAILABLE' ? '#f59e0b' : '#22c55e', color: 'white', padding: '0.75rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 600 }}
+                    >
+                      {product.status === 'AVAILABLE' ? 'Mark as Sold' : 'Mark as Available'}
+                    </button>
+                    <button 
+                      onClick={handleDelete}
+                      style={{ flex: 1, background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid #ef4444', padding: '0.75rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 600 }}
+                    >
+                      Delete Listing
+                    </button>
+                 </div>
                </div>
             ) : product.status !== 'AVAILABLE' ? (
                 <button disabled style={{ width: '100%', padding: '1rem', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.2)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.3)', fontWeight: 600, cursor: 'not-allowed' }}>

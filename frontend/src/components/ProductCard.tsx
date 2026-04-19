@@ -47,16 +47,22 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
         ) : (
           <Tag size={48} />
         )}
+        
+        {product.status === 'SOLD' && (
+          <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: '#f59e0b', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 700, zIndex: 10 }}>
+            SOLD
+          </div>
+        )}
       </div>
 
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-          <h3 style={{ fontSize: '1.125rem', margin: 0, color: 'var(--text-main)', lineHeight: '1.3' }}>
+          <h3 style={{ fontSize: '1.125rem', margin: 0, color: product.status === 'SOLD' ? 'var(--text-muted)' : 'var(--text-main)', lineHeight: '1.3' }}>
             {product.title.length > 40 ? product.title.substring(0, 40) + '...' : product.title}
           </h3>
         </div>
 
-        <p style={{ color: 'var(--accent)', fontSize: '1.25rem', fontWeight: 600, margin: '0.5rem 0' }}>
+        <p style={{ color: product.status === 'SOLD' ? 'var(--text-muted)' : 'var(--accent)', fontSize: '1.25rem', fontWeight: 600, margin: '0.5rem 0' }}>
           ${product.price.toFixed(2)}
         </p>
 

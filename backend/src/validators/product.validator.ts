@@ -6,6 +6,7 @@ export const createProductSchema = z.object({
     description: z.string().min(10, 'Description must be at least 10 characters').max(1000),
     price: z.number().positive('Price must be a positive number'),
     category: z.string().min(2, 'Category is required'),
+    imageUrl: z.string().url('Please enter a valid image URL').optional().or(z.literal('')),
   }),
 });
 
@@ -15,6 +16,7 @@ export const updateProductSchema = z.object({
     description: z.string().min(10).max(1000).optional(),
     price: z.number().positive().optional(),
     category: z.string().min(2).optional(),
+    imageUrl: z.string().url().optional().or(z.literal('')),
     status: z.enum(['AVAILABLE', 'SOLD', 'REMOVED']).optional(),
   }),
 });
