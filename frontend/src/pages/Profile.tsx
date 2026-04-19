@@ -3,30 +3,25 @@ import { motion } from 'framer-motion';
 import { User, Settings, Save, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { userService } from '../services/user.service';
+import { useToast } from '../context/ToastContext';
 
 const Profile = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
+  const { showToast } = useToast();
   const [name, setName] = useState(user?.name || '');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
     try {
-      await userService.updateProfile({ name });
-      setMessage('Profile updated successfully!');
-      
-      // Minor manual update to context store temporarily
-      if (user) {
-        const updated = { ...user, name };
-        localStorage.setItem('user', JSON.stringify(updated));
-      }
-    } catch (err) {
-      setMessage('Failed to update profile.');
+      const res = await userService.updateProfile({ name });
+      const updatedUser = res.data.user;
+      updateUser(updatedUser);
+      showToast('Profile updated successfully!', 'success');
+    } catch (err: any) {
+      showToast(err.response?.data?.message || 'Failed to update profile.', 'error');
     } finally {
-      setTimeout(() => setMessage(''), 3000);
       setLoading(false);
     }
   };
@@ -73,12 +68,6 @@ const Profile = () => {
         >
           <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>Edit Profile</h2>
           
-          {message && (
-            <div style={{ background: message.includes('success') ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)', color: message.includes('success') ? '#22c55e' : '#ef4444', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
-              {message}
-            </div>
-          )}
-
           <form onSubmit={handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>College Email Domain</label>

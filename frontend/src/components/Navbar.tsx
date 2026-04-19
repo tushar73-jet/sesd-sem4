@@ -4,7 +4,7 @@ import { School, User, Store, Package, ShieldAlert } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   if (!user) return null; // Don't show nav on login pages
@@ -68,6 +68,27 @@ const Navbar = () => {
             </li>
           );
         })}
+        <li>
+          <button 
+            onClick={logout}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              color: 'var(--text-muted)',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '0.875rem',
+              transition: 'color 0.2s',
+              padding: 0
+            }}
+            onMouseOver={e => e.currentTarget.style.color = '#ef4444'}
+            onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
+          >
+            Logout
+          </button>
+        </li>
       </ul>
     </motion.nav>
   );
