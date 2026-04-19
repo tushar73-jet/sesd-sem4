@@ -14,6 +14,7 @@ const Home = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [error, setError] = useState('');
 
   // Trigger search on form submit instead of every keystroke for better performance
   const handleSearch = (e: React.FormEvent) => {
@@ -24,6 +25,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
+    setError('');
     try {
       const res = await productService.getProducts({
         page,
@@ -34,8 +36,9 @@ const Home = () => {
       });
       setProducts(res.data.products);
       setTotalPages(res.data.meta.totalPages || 1);
-    } catch (error) {
-      console.error('Failed to fetch products', error);
+    } catch (err: any) {
+      console.error('Failed to fetch products', err);
+      setError(err.response?.data?.message || 'The server is currently unreachable. Please check your connection.');
     } finally {
       setLoading(false);
     }
@@ -112,8 +115,20 @@ const Home = () => {
             </div>
           ) : products.length === 0 ? (
             <div style={{ background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '4rem', textAlign: 'center' }}>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>No products found</h3>
-              <p style={{ color: 'var(--text-muted)' }}>Try adjusting your search or filters.</p>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>
+                {error ? 'Failed to connect to marketplace' : 'No products found'}
+              </h3>
+              <p style={{ color: 'var(--text-muted)' }}>
+                {error ? `Reason: ${error}` : 'Try adjusting your search or filters.'}
+              </p>
+              {error && (
+                <button 
+                  onClick={() => fetchProducts()}
+                  style={{ marginTop: '1.5rem', background: 'var(--primary)', color: 'white', padding: '0.5rem 1.5rem', borderRadius: '8px', fontWeight: 600 }}
+                >
+                  Try Again
+                </button>
+              )}
             </div>
           ) : (
             <>

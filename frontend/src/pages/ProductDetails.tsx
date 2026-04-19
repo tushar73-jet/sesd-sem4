@@ -79,9 +79,13 @@ const ProductDetails = () => {
         animate={{ opacity: 1, y: 0 }}
         style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) minmax(300px, 1fr)', gap: '4rem', background: 'var(--glass)', border: '1px solid var(--border)', borderRadius: '16px', padding: '2rem' }}
       >
-        {/* Mock Image Gallery */}
-        <div style={{ background: 'rgba(15, 23, 42, 0.5)', borderRadius: '12px', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', border: '1px solid var(--border)' }}>
-          <Tag size={120} opacity={0.5} />
+        {/* Image Gallery */}
+        <div style={{ background: 'rgba(15, 23, 42, 0.5)', borderRadius: '12px', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+          {product.imageUrl ? (
+            <img src={product.imageUrl} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          ) : (
+            <Tag size={120} opacity={0.5} />
+          )}
         </div>
 
         {/* Product Details Flow */}

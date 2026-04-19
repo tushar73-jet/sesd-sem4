@@ -18,9 +18,9 @@ const Register = () => {
     setError('');
     
     // Quick frontend check before firing network
-    const collegeEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/;
+    const collegeEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu|edu\.[a-z]{2}|ac\.[a-z]{2})$/;
     if (!collegeEmailRegex.test(email)) {
-      setError('You must use a valid college email address ending in .edu');
+      setError('You must use a valid college email ending in .edu, .edu.in, or .ac.in');
       return;
     }
 
@@ -85,7 +85,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>College Email (.edu)</label>
+            <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>College Email (.edu / .edu.in / .ac.in)</label>
             <input 
               type="email" 
               required

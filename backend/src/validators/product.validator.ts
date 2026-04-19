@@ -22,8 +22,8 @@ export const updateProductSchema = z.object({
 // For query parameters filtering and pagination
 export const queryProductSchema = z.object({
   query: z.object({
-    page: z.string().regex(/^\d+$/).optional().transform(Number),
-    limit: z.string().regex(/^\d+$/).optional().transform(Number),
+    page: z.union([z.string(), z.number()]).optional().transform((val) => typeof val === 'string' ? parseInt(val, 10) : val),
+    limit: z.union([z.string(), z.number()]).optional().transform((val) => typeof val === 'string' ? parseInt(val, 10) : val),
     search: z.string().optional(),
     category: z.string().optional(),
     status: z.enum(['AVAILABLE', 'SOLD', 'REMOVED']).optional(),

@@ -9,6 +9,7 @@ interface Product {
   price: number;
   category: string;
   status: string;
+  imageUrl?: string;
   createdAt: string;
 }
 
@@ -25,8 +26,10 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         transition: 'transform 0.2s, box-shadow 0.2s',
         cursor: 'pointer',
+        position: 'relative'
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.transform = 'translateY(-4px)';
@@ -37,9 +40,13 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      {/* Placeholder Image container since we don't have S3 set up yet */}
-      <div style={{ height: '180px', background: 'rgba(56, 189, 248, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', borderBottom: '1px solid var(--border)' }}>
-        <Tag size={48} />
+      {/* Product Image container */}
+      <div style={{ height: '200px', width: '100%', background: 'rgba(56, 189, 248, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', borderBottom: '1px solid var(--border)', overflow: 'hidden' }}>
+        {product.imageUrl ? (
+          <img src={product.imageUrl} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <Tag size={48} />
+        )}
       </div>
 
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

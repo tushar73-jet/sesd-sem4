@@ -16,9 +16,9 @@ export class AuthService {
       throw new AppError('Email is already registered', 400);
     }
 
-    const collegeEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.edu$/;
+    const collegeEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(edu|edu\.[a-z]{2}|ac\.[a-z]{2})$/;
     if (!collegeEmailRegex.test(data.email)) {
-      throw new AppError('You must use a valid college email address', 400);
+      throw new AppError('You must use a valid college email address (.edu, .edu.in, etc)', 400);
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);

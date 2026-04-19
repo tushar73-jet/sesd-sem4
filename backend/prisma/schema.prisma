@@ -45,6 +45,7 @@ model Product {
   description String
   price       Float
   category    String
+  imageUrl    String?
   status      ProductStatus @default(AVAILABLE)
   sellerId    String
   createdAt   DateTime      @default(now())
